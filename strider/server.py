@@ -14,7 +14,7 @@ app = FastAPI(
     version='1.0.0',
 )
 
-app.mount("/static", StaticFiles(directory="ui"), name="static")
+app.mount("/", StaticFiles(directory="ui", html=True), name="static")
 
 
 async def get_db():
