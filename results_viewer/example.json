@@ -1,0 +1,35 @@
+{
+    "message": {
+        "query_graph": {
+            "nodes": [
+                {
+                    "id": "a",
+                    "type": "gene"
+                },
+                {
+                    "id": "b",
+                    "type": "biological_process",
+                    "curie": "GO:0000184"
+                },
+                {
+                    "id": "c",
+                    "type": "anatomical_entity"
+                }
+            ],
+            "edges": [
+                {
+                    "id": "ab",
+                    "source_id": "a",
+                    "target_id": "b",
+                    "type": "related_to"
+                },
+                {
+                    "id": "ac",
+                    "source_id": "a",
+                    "target_id": "c",
+                    "type": "related_to"
+                }
+            ]
+        }
+    }
+}
