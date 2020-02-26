@@ -1,3 +1,5 @@
+-e .
+aiofiles
 aioredis
 aiormq
 aiosqlite

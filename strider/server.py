@@ -3,6 +3,7 @@ from typing import List, Dict
 
 import aiosqlite
 from fastapi import Depends, FastAPI
+from starlette.staticfiles import StaticFiles
 
 from strider.models import Query, Message
 from strider.setup_query import execute_query
@@ -12,6 +13,8 @@ app = FastAPI(
     description='Translator Autonomous Relay Agent',
     version='1.0.0',
 )
+
+app.mount("/static", StaticFiles(directory="ui"), name="static")
 
 
 async def get_db():
