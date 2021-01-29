@@ -103,6 +103,27 @@ def ensure_list(arg: Union[str, list[str]]) -> list[str]:
     return [arg]
 
 
+def listify_value(input_dictionary: dict[str, any], key: str):
+    """ If the provided key is not a list, wrap it in a list """
+    if key not in input_dictionary:
+        return
+    if isinstance(input_dictionary[key], str):
+        input_dictionary[key] = [input_dictionary[key]]
+
+
+def standardize_graph_lists(graph: dict[str, dict]):
+    """ Convert fields that are given as a string to a list """
+    node_fields = ['id', 'category']
+    for node in graph['nodes'].values():
+        for field in node_fields:
+            listify_value(node, field)
+
+    edge_fields = ['predicate']
+    for edge in graph['edges'].values():
+        for field in edge_fields:
+            listify_value(edge, field)
+
+
 def message_to_list_form(message):
     """Convert *graph nodes/edges and node/edge bindings to list forms."""
     if message['results']:

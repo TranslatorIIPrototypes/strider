@@ -15,6 +15,7 @@ services:
     command: --host 0.0.0.0 --port 5781 --reload
     environment:
       SERVER_URL: http://localhost:5781
+      KPREGISTRY_URL: http://robokop.renci.org:4983
   # Redis debugging UI 
   redis-commander:
     image: rediscommander/redis-commander:latest

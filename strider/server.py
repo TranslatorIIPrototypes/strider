@@ -27,6 +27,7 @@ from .results import get_db, Database
 from .storage import RedisGraph, RedisList
 from .config import settings
 from .logging import LogLevelEnum
+from .util import standardize_graph_lists
 
 LOGGER = logging.getLogger(__name__)
 
@@ -146,9 +147,12 @@ async def async_query(
     # Generate Query ID
     qid = str(uuid.uuid4())[:8]
 
+    query_graph = query.dict()['message']['query_graph']
+    standardize_graph_lists(query_graph)
+
     # Save query graph to redis
-    qgraph = RedisGraph(f"{qid}:qgraph")
-    qgraph.set(query.dict()['message']['query_graph'])
+    redis_query_graph = RedisGraph(f"{qid}:qgraph")
+    redis_query_graph.set(query_graph)
 
     # Start processing
     background_tasks.add_task(process_query, qid, log_level)
@@ -175,11 +179,12 @@ async def sync_query(
     # Generate Query ID
     qid = str(uuid.uuid4())[:8]
 
+    query_graph = query.dict()['message']['query_graph']
+    standardize_graph_lists(query_graph)
+
     # Save query graph to redis
-    qgraph = RedisGraph(f"{qid}:qgraph")
-    qgraph.set(
-        query.dict()['message']['query_graph']
-    )
+    redis_query_graph = RedisGraph(f"{qid}:qgraph")
+    redis_query_graph.set(query_graph)
 
     # Process query and wait for results
     query_results = await process_query(qid, log_level)
